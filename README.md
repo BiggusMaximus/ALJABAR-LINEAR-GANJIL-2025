@@ -1,5 +1,8 @@
 # Materi Kuliah
+Mata kuliah ini dirancang untuk membekali mahasiswa dengan teknik-teknik dasar Aljabar Linier serta kemampuan menerapkannya dalam berbagai konteks, seperti menyelesaikan sistem persamaan linier, menentukan basis dan dimensi ruang vektor, menghitung nilai eigen dan vektor eigen, serta memanfaatkan pasangan eigen dalam aplikasi tertentu.
 
+
+# Materi:
 ## 1. Sistem Persamaan Linear dan Matriks
 - Sistem Persamaan Linear  
 - Eliminasi Gauss  
