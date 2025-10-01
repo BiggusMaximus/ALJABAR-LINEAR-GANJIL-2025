@@ -11,62 +11,44 @@ plt.rcParams.update({
     'text.latex.preamble': r'\usepackage{amsfonts}\usepackage{amsmath}',
     "font.family": "Times New Roman"
 })
-x0 = np.array([1, 2, 0])     # point on the plane
-v1 = np.array([1, 0, 2])     # direction vector 1
-v2 = np.array([0, 2, 1])     # direction vector 2
 
-# ----------------------------
-# Create a grid of parameters s, t
-# ----------------------------
-s_vals = np.linspace(-2, 2, 20)
-t_vals = np.linspace(-2, 2, 20)
-S, T = np.meshgrid(s_vals, t_vals)
+P1 = np.array([2, 8, 4])
+P2 = np.array([7, 10, -8])
 
-# Parametric equation of the plane: X = x0 + s v1 + t v2
-X = x0[0] + S * v1[0] + T * v2[0]
-Y = x0[1] + S * v1[1] + T * v2[1]
-Z = x0[2] + S * v1[2] + T * v2[2]
+# Define vector from P1 to P2
+v = P2 - P1   # (5, 6, -12)
 
-# ----------------------------
-# Plot
-# ----------------------------
-fig = plt.figure(figsize=(8,6), dpi=150)
+# 3D Plot
+fig = plt.figure(figsize=(8,8))
 ax = fig.add_subplot(111, projection='3d')
 
-# Plot the plane
-ax.plot_surface(X, Y, Z, alpha=0.4, color="lightblue")
+# --- Draw vector from origin to P1
+ax.quiver(0, 0, 0, P1[0], P1[1], P1[2], color="blue", arrow_length_ratio=0.1, linewidth=2)
+ax.text(P1[0]+0.3, P1[1], P1[2], r"$\vec{OP}_1$", fontsize=12, color="blue")
 
-# Plot the point x0
-ax.scatter(*x0, color="red", s=50, label=r"$\vec{x}_0$")
+# --- Draw vector from origin to P2
+ax.quiver(0, 0, 0, P2[0], P2[1], P2[2], color="red", arrow_length_ratio=0.1, linewidth=2)
+ax.text(P2[0]+0.3, P2[1], P2[2], r"$\vec{OP}_2$", fontsize=12, color="red")
 
-# Plot the direction vectors from x0
-ax.quiver(*x0, *v1, color="blue" , arrow_length_ratio=0.2, label=r"$\vec{v}_1$")
-ax.text(
-    (v1[0] + x0[0])/2, 
-    (v1[1] + x0[1])/2, 
-    (v1[2] + x0[2])/2, r"$\vec{v}_1$", fontsize=12, color="blue")
+# --- Draw vector from P1 to P2
+ax.quiver(P1[0], P1[1], P1[2], v[0], v[1], v[2], color="green", arrow_length_ratio=0.1, linewidth=2)
+ax.text(P1[0]+v[0]/2, P1[1]+v[1]/2, P1[2]+v[2]/2, r"$\vec{v} = \overrightarrow{P_1P_2}$", fontsize=12, color="green")
 
-ax.quiver(*x0, *v2, color="green", arrow_length_ratio=0.2, label=r"$\vec{v}_2$")
-ax.text(
-    (v2[0] + x0[0])/2, 
-    (v2[1] + x0[1])/2, 
-    (v2[2] + x0[2])/2, r"$\vec{v}_2$", fontsize=12, color="green")
+# Set axes limits
+ax.set_xlim([-1, 8])
+ax.set_ylim([-2, 8])
+ax.set_zlim([-12, 5])
 
-x = x0 + v1 + v2
-ax.quiver(*x0, *x, color="r", arrow_length_ratio=0.2, label=r"$x$")
-ax.text(
-    (x[0] + x0[0]), 
-    (x[1] + x0[1]), 
-    (x[2] + x0[2]), r"$x$", fontsize=12, color="r")
+# Axis labels
+ax.set_xlabel("X", fontsize=12)
+ax.set_ylabel("Y", fontsize=12)
+ax.set_zlabel("Z", fontsize=12)
 
-anchor = 7
+# Draw Cartesian axes
+anchor = 8
 ax.plot([-anchor, anchor], [0,0], [0,0], color="black", linewidth=0.8)  # X-axis
 ax.plot([0,0], [-anchor, anchor], [0,0], color="black", linewidth=0.8)  # Y-axis
 ax.plot([0,0], [0,0], [-anchor, anchor], color="black", linewidth=0.8)  # Z-axis
-
-ax.set_xlabel("X-axis")
-ax.set_ylabel("Y-axis")
-ax.set_zlabel("Z-axis")
-ax.grid(False)
-ax.legend(fontsize=12)
+ax.grid(False)  
+ax.set_title(v)
 plt.show()
