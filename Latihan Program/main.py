@@ -12,39 +12,34 @@ plt.rcParams.update({
     "font.family": "Times New Roman"
 })
 # Create 3D plot
-FONTSIZE = 12
-fig = plt.figure(figsize=(8, 8), dpi=250)
+
+fig = plt.figure(figsize=(10, 8), dpi=250)
 ax = fig.add_subplot(111, projection='3d')
 
 anchor = 10
-ax.plot([-anchor, anchor], [0, 0], [0, 0], color="black", linewidth=0.8, zorder=10)  # X-axis
-ax.plot([0, 0], [-anchor, anchor], [0, 0], color="black", linewidth=0.8, zorder=10)  # Y-axis
-ax.plot([0, 0], [0, 0], [-anchor, anchor], color="black", linewidth=0.8, zorder=10)  # Z-axis
+# Axes
+ax.plot([-anchor, anchor], [0, 0], [0, 0], color="black", linewidth=0.8, zorder=10)
+ax.plot([0, 0], [-anchor, anchor], [0, 0], color="black", linewidth=0.8, zorder=10)
+ax.plot([0, 0], [0, 0], [-anchor, anchor], color="black", linewidth=0.8, zorder=10)
 
-# --- Define the plane x+y+z=0 ---
-xx = np.linspace(-8, 8, 20)
-yy = np.linspace(-8, 8, 20)
-XX, YY = np.meshgrid(xx, yy)
-ZZ = -(XX + YY)   # from equation x+y+z=0
+# Grid for plane x + y + z = 0
+s = np.linspace(-3, 3, 20)
+t = np.linspace(-3, 3, 20)
+S, T = np.meshgrid(s, t)
+X = 3 - 2*S - 3*T
+Y = S
+Z = T
 
-ax.plot_surface(XX, YY, ZZ, alpha=0.3, color="blue", zorder=1)
 
-# --- Example spanning vectors for W ---
-v1 = np.array([1, -1, 0])
-v2 = np.array([1, 0, -1])
-ax.quiver(0, 0, 0, *v1, color="red", linewidth=1.2, arrow_length_ratio=0.1, label=r'$v_1=(1,-1,0)$')
-ax.quiver(0, 0, 0, *v2, color="green", linewidth=1.2, arrow_length_ratio=0.1, label=r'$v_2=(1,0,-1)$')
+# Plot plane
+ax.plot_surface(X, Y, Z, alpha=0.5, color='cyan', rstride=1, cstride=1, edgecolor='none', label=r"$\textbf{Solution Space: } (3-2s-3t, s, t)$")
 
-# --- Formatting ---
-ax.set_xlim([-anchor, anchor])
-ax.set_ylim([-anchor, anchor])
-ax.set_zlim([-anchor, anchor])
-ax.set_xlabel("X-axis")
-ax.set_ylabel("Y-axis")
-ax.set_zlabel("Z-axis")
-
-ax.set_aspect('auto')
-ax.grid(False)
+# Labels
+ax.set_xlabel("x")
+ax.set_ylabel("y")
+ax.set_zlabel("z")
+ax.set_aspect('equal')
 ax.legend()
-plt.title(r"Subspace $W=\{(x,y,z):x+y+z=0\}$")
+ax.grid(False)
+
 plt.show()
